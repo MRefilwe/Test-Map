@@ -1,0 +1,159 @@
+<head>
+
+  <title>My Google Map</title>
+
+  <style>
+    #map {
+      height: 100px;
+      width: 100%;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div id="map"></div>
+
+  <script>
+
+    function initMap() {
+
+      // CENTER OF MAP
+      const center = {
+        lat: -26.0,
+        lng: 28.0
+      };
+
+      // CREATE MAP
+      const map = new google.maps.Map(
+        document.getElementById("map"),
+        {
+          zoom: 10,
+          center: center
+        }
+      );
+
+      // LOCATIONS
+      const locations = [
+
+        {
+          lat: -25.8602437,
+          lng: 28.1898451,
+          title: "Centurion",
+          info: "Main branch location",
+		  technician: "David Mercedes",
+		  task: "Router installation",
+		  priority: "High",
+		  status: "Done",
+		  day: "12/05/2026",
+		  start: "11:00",
+		  end: "11:35"
+        },
+
+        {
+          lat: -26.0015321,
+          lng: 27.8407124,
+          title: "Muldersdrift",
+          info: "Secondary location",
+		  technician: "Lilly McClaren",
+		  task: "System Diagnosis",
+		  priority: "High",
+		  status: "In Progress",
+		  day: "14/05/2026",
+		  start: "15:30"
+		  
+        },
+
+        {
+          lat: -26.0937125,
+          lng: 27.9826231,
+          title: "Randburg",
+          info: "Customer support branch",
+		  technician: "Fifi Metseeme",
+		  task:"Infrastructure monitoring and reporting",
+		  priority: "High",
+		  status: "Backlog",
+		  day: "18/05/2026",
+		  start: "09:00"
+		  
+        }
+
+      ];
+
+      // CREATE MARKERS
+      locations.forEach(location => {
+
+        const marker = new google.maps.Marker({
+          position: {
+            lat: location.lat,
+            lng: location.lng
+          },
+          map: map
+        });
+
+        // POPUP WINDOW
+        const infoWindow = new google.maps.InfoWindow({
+          content:
+            `
+            <h2>${location.title}</h2>
+            <p>${location.info}</p>
+			<p>${location.technician}</p>
+			<p>${location.task}</P>
+			<p>${location.priority}</p>
+			<p>${location.status}</p>
+			<p>${location.day}</p>
+			<p>${location.start}</p>
+			<p>${location.end}</p>
+            `
+        });
+
+        // OPEN POPUP WHEN CLICKED
+        marker.addListener("click", () => {
+          infoWindow.open(map, marker);
+        });
+
+      });
+
+      // ROUTE/TRAIL
+      const routeCoordinates = [
+
+        {
+          lat: -25.8602437,
+          lng: 28.1898451
+        },
+
+        {
+          lat: -26.0015321,
+          lng: 27.8407124
+        },
+
+        {
+          lat: -26.0937125,
+          lng: 27.9826231
+        }
+
+      ];
+
+      // CREATE RED LINE
+      const routePath = new google.maps.Polyline({
+        path: routeCoordinates,
+        geodesic: true,
+        strokeColor: "#FF0000",
+        strokeOpacity: 1.0,
+        strokeWeight: 4
+      });
+
+      // DISPLAY LINE
+      routePath.setMap(map);
+
+    }
+
+  </script>
+
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGD8NtA-SJsx1c-ZCuIxxBvRQCGKCl3YY&callback=initMap">
+  </script>
+
+</body>
+
